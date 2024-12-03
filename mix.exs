@@ -1,4 +1,4 @@
-defmodule Aoc24.MixProject do
+defmodule AOC24.MixProject do
   use Mix.Project
 
   def project do
