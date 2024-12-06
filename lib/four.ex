@@ -1,7 +1,7 @@
 defmodule AOC24.Four do
   alias AOC24.Utils
 
-  @directions [
+  @word_directions [
     [{1, 0}, {2, 0}, {3, 0}],
     [{1, 1}, {2, 2}, {3, 3}],
     [{0, 1}, {0, 2}, {0, 3}],
@@ -11,6 +11,29 @@ defmodule AOC24.Four do
     [{1, -1}, {2, -2}, {3, -3}],
     [{-1, 1}, {-2, 2}, {-3, 3}]
   ]
+
+  @diagonals [
+    [{-1, -1}, {0, 0}, {1, 1}],
+    [{1, -1}, {0, 0}, {-1, 1}]
+  ]
+
+  def test do
+    """
+    MMMSXXMASM
+    MSAMXMSMSA
+    AMXSXMAAMM
+    MSAMASMSMX
+    XMASAMXAMM
+    XXAMMXXAMA
+    SMSMSASXSS
+    SAXAMASAAA
+    MAMMMXMMMM
+    MXMXAXMASX
+    """
+    |> String.split("\n", trim: true)
+    |> Enum.map(&String.to_charlist/1)
+    |> second()
+  end
 
   def input do
     Utils.raw_input("four")
@@ -24,7 +47,7 @@ defmodule AOC24.Four do
 
     for {row, y} <- Enum.with_index(input),
         {?X, x} <- Enum.with_index(row),
-        direction <- @directions do
+        direction <- @word_directions do
       word =
         Enum.map(direction, fn {xx, yy} ->
           at_y = y + yy
@@ -49,7 +72,29 @@ defmodule AOC24.Four do
     |> Enum.sum()
   end
 
-  def second(_) do
-    :not_implemented
+  def second(input) do
+    height = Enum.count(input)
+    width = input |> Enum.at(0) |> Enum.count()
+
+    for {row, y} <- Enum.with_index(input),
+        {?A, x} <- Enum.with_index(row) do
+      diagonal_words =
+        Enum.map(@diagonals, fn cords ->
+          Enum.map(cords, fn {xx, yy} -> get_at(input, height, width, x + xx, y + yy) end)
+        end)
+
+      if Enum.all?(diagonal_words, &(&1 in [~c"SAM", ~c"MAS"])) do
+        1
+      else
+        0
+      end
+    end
+    |> Enum.sum()
+  end
+
+  defp get_at(input, height, width, x, y) do
+    if x >= 0 and x < width and y >= 0 and y < height do
+      get_in(input, [Access.at(y), Access.at(x)])
+    end
   end
 end
