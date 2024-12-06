@@ -17,24 +17,6 @@ defmodule AOC24.Four do
     [{1, -1}, {0, 0}, {-1, 1}]
   ]
 
-  def test do
-    """
-    MMMSXXMASM
-    MSAMXMSMSA
-    AMXSXMAAMM
-    MSAMASMSMX
-    XMASAMXAMM
-    XXAMMXXAMA
-    SMSMSASXSS
-    SAXAMASAAA
-    MAMMMXMMMM
-    MXMXAXMASX
-    """
-    |> String.split("\n", trim: true)
-    |> Enum.map(&String.to_charlist/1)
-    |> second()
-  end
-
   def input do
     Utils.raw_input("four")
     |> String.split("\n", trim: true)
