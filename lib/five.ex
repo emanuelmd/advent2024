@@ -52,7 +52,7 @@ defmodule AOC24.Five do
     |> Enum.sum()
   end
 
-  def second(%__MODULE__{rules: rules, updates: updates}) do
+  def second(_) do
     :not_ok
   end
 
