@@ -19,8 +19,7 @@ defmodule AOC24.Seven do
       match? =
         operators
         |> permutations(perms)
-        |> Enum.map(&evaluate(numbers, &1))
-        |> Enum.any?(&(&1 == total))
+        |> Enum.any?(&(evaluate(numbers, &1, total) == total))
 
       if match? do
         total + acc
@@ -53,11 +52,11 @@ defmodule AOC24.Seven do
     end)
   end
 
-  defp evaluate([result], []) do
+  defp evaluate([result], [], _) do
     result
   end
 
-  defp evaluate([left, right | rest], [operator | rest_op]) do
+  defp evaluate([left, right | rest], [operator | rest_op], expected) do
     result =
       case operator do
         ?+ ->
@@ -71,6 +70,10 @@ defmodule AOC24.Seven do
           |> String.to_integer()
       end
 
-    evaluate([result | rest], rest_op)
+    if result > expected do
+      evaluate([nil], [], expected)
+    else
+      evaluate([result | rest], rest_op, expected)
+    end
   end
 end
