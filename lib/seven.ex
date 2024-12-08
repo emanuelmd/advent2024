@@ -11,7 +11,6 @@ defmodule AOC24.Seven do
   def second(input) do
     sum_matching(input, [?+, ?*, ?|])
   end
-  end
 
   defp sum_matching(input, operators) do
     Enum.reduce(input, 0, fn {total, numbers}, acc ->

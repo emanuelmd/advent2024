@@ -23,7 +23,7 @@ defmodule AOC24.Six do
     total_steps - 1
   end
 
-  def second(input) do
+  def second(_) do
     :ok
   end
 
